@@ -1,5 +1,5 @@
 {
-  "name": "yt-clone",
+  "name": "stren",
   "private": true,
   "scripts": {
     "dev": "next dev",
