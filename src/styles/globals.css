@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Andada+Pro:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+
+:root{
+  --primary-font : 'Andada Pro', sans-serif;
+}
+
+html,
+body {
+
+  padding: 0;
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.70);
+}
+
+
+hr{
+  background-color: #312e2e50;
+  border: 1px solid #312e2e50;
+}
