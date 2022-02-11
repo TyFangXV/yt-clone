@@ -1,118 +1,95 @@
-import type { NextPage } from 'next'
-import Card from '../components/card/card'
-import Nav from '../components/nav/nav'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from 'next';
+import React, { useEffect } from 'react';
+import { InputType } from 'zlib';
+import Card from '../components/card/card';
+import Nav from '../components/nav/nav';
+import styles from '../styles/Home.module.css';
+import recoil, { RecoilState, useRecoilState } from 'recoil';
+import { inputState } from '../state/input';
+import { lastestAnime } from '../state/anime';
+import { IAnime } from '../components/types/interface';
+import Axios from 'axios';
+import { Box, Heading } from '@chakra-ui/react';
 
-/*movies*/
-const movies = [
-    {
-        title: 'Avengers: Endgame',
-        description: 'After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe.',
-        image: 'https://cdn.wallpapersafari.com/39/2/4SVm8Q.jpg'
-    },
-    {
-        title: 'The Godfather',
-        description: 'The aging patriarch',
-        image : 'https://thoughtcatalog.com/wp-content/uploads/2014/01/godfather.jpg'
-    },
-    {
-        title: 'Uncharted',
-        description: 'The early life and career of',
-        image : 'https://www.egames.news/__export/1640465096074/sites/debate/img/2021/12/25/uncharted.jpg_474438749.jpg'
-    },
-    {
-        title: 'The Dark Knight',
-        description: 'When the menace known as the Joker',
-        image : 'https://m.media-amazon.com/images/M/MV5BMTc2Nzg0MTk1MV5BMl5BanBnXkFtZTgwNjg3MTkxMTI@._V1_.jpg'
-    },
-    {
-      title: 'Avengers: Endgame',
-      description: 'After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe.',
-      image: 'https://cdn.wallpapersafari.com/39/2/4SVm8Q.jpg'
-  },
-  {
-      title: 'The Godfather',
-      description: 'The aging patriarch',
-      image : 'https://thoughtcatalog.com/wp-content/uploads/2014/01/godfather.jpg'
-  },
-  {
-      title: 'Uncharted',
-      description: 'The early life and career of',
-      image : 'https://www.egames.news/__export/1640465096074/sites/debate/img/2021/12/25/uncharted.jpg_474438749.jpg'
-  },
-  {
-      title: 'The Dark Knight',
-      description: 'When the menace known as the Joker',
-      image : 'https://m.media-amazon.com/images/M/MV5BMTc2Nzg0MTk1MV5BMl5BanBnXkFtZTgwNjg3MTkxMTI@._V1_.jpg'
-  },
-  {
-    title: 'Avengers: Endgame',
-    description: 'After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe.',
-    image: 'https://cdn.wallpapersafari.com/39/2/4SVm8Q.jpg'
-},
-{
-    title: 'The Godfather',
-    description: 'The aging patriarch',
-    image : 'https://thoughtcatalog.com/wp-content/uploads/2014/01/godfather.jpg'
-},
-{
-    title: 'Uncharated',
-    description: 'The early life and career of ',
-    image : 'https://www.egames.news/__export/1640465096074/sites/debate/img/2021/12/25/uncharted.jpg_474438749.jpg'
-},
-{
-    title: 'The Dark Knight',
-    description: 'When the menace known as the Joker',
-    image : 'https://m.media-amazon.com/images/M/MV5BMTc2Nzg0MTk1MV5BMl5BanBnXkFtZTgwNjg3MTkxMTI@._V1_.jpg'
-},
-{
-  title: 'Avengers: Endgame',
-  description: 'After the devastating events of Avengers: Infinity War, the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to reverse Thanos\' actions and restore balance to the universe.',
-  image: 'https://cdn.wallpapersafari.com/39/2/4SVm8Q.jpg'
-},
-{
-  title: 'The Godfather',
-  description: 'The aging patriarch',
-  image : 'https://thoughtcatalog.com/wp-content/uploads/2014/01/godfather.jpg'
-},
-{
-  title: 'Uncharted',
-  description: 'The early life and career of',
-  image : 'https://www.egames.news/__export/1640465096074/sites/debate/img/2021/12/25/uncharted.jpg_474438749.jpg'
-},
-{
-  title: 'The Dark Knight',
-  description: 'When the menace known as the Joker',
-  image : 'https://m.media-amazon.com/images/M/MV5BMTc2Nzg0MTk1MV5BMl5BanBnXkFtZTgwNjg3MTkxMTI@._V1_.jpg'
-},
-
-  ]
+const axios = Axios.defaults;
 
 const Home: NextPage = () => {
+  const inputRef = React.createRef<InputType>();
+  const [input, setInput] = recoil.useRecoilState(inputState);
+  const [lastestAnimeData, setLatestAnime] =
+    useRecoilState<IAnime[]>(lastestAnime);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await Axios.get(
+          `https://api.jikan.moe/v4/recommendations/anime`
+        );
+
+        //parse the data and put the nessesary data into the state
+        const result = JSON.parse(JSON.stringify(data.data));
+
+        const anime = result.map((anime: any) => {
+
+          
+          anime.entry.map((entry: any) => {
+            const data: IAnime = {
+              title: `${entry.title}`,
+              image: entry.images.webp,
+              content: `${anime.content}`,
+              url: `${anime.url}`,
+              mal_id: `${anime.mal_id}`,
+            };
+            
+            setLatestAnime(prev => [...prev, data]);
+          });
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
   return (
-    <div className={styles.container}>
+    <Box>
       <div className={styles.screen}>
-        <Nav/>
+        <Nav />
       </div>
-      <div style={{marginLeft : "16vw", paddingTop : "5vh"}}>
-          <div className={styles.overView}>
-              {
-                movies.map(({title, description, image}, index) => (
-                  <Card 
-                    key={index}
-                    title={title}
-                    description={description}
-                    image={image}
-                  />
-                ))
+      <Box
+        paddingTop={'5vh'}
+        paddingLeft="5vw"
+        background="#191919"
+        minWidth={'100vw'}
+      >
+        <Box
+          display={'grid'}
+          gridGap={'2vw'}
+          gridTemplateColumns={'20vw 20vw 20vw 20vw'}
+          background="#191919"
+          overflowY="hidden"
+        >
+          {
+           lastestAnimeData.length > 0 ?
+                        lastestAnimeData.slice(0, 25).reverse().map((anime: IAnime, index) => {
+                          return (
+                            <Card
+                              key={index}
+                              title={anime.title}
+                              image={anime.image}
+                              mal_id={anime.mal_id}
+                              url={anime.url}
+                              content={anime.content}
+                            />
+                          );
+                        })   
+                        :
+                        <Box>
+                          <Heading color={"white"}>Loading...</Heading>
+                        </Box>
+          }
+        </Box>
+      </Box>
+    </Box>
+  );
+};
 
-              }        
-          </div>        
-      </div>
-
-
-    </div>
-  )
-}
-
-export default Home
+export default Home;
