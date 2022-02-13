@@ -4,18 +4,20 @@ import { InputType } from 'zlib';
 import Card from '../components/card/card';
 import Nav from '../components/nav/nav';
 import styles from '../styles/Home.module.css';
-import recoil, { RecoilState, useRecoilState } from 'recoil';
+import {useRecoilState } from 'recoil';
 import { inputState } from '../state/input';
 import { lastestAnime } from '../state/anime';
-import { IAnime } from '../components/types/interface';
+import { IAnime } from '../components/utils/interface';
 import Axios from 'axios';
 import { Box, Heading } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 
-const axios = Axios.defaults;
+
 
 const Home: NextPage = () => {
+  const router = useRouter();
   const inputRef = React.createRef<InputType>();
-  const [input, setInput] = recoil.useRecoilState(inputState);
+  const [input, setInput] = useRecoilState(inputState);
   const [lastestAnimeData, setLatestAnime] =
     useRecoilState<IAnime[]>(lastestAnime);
 
@@ -30,25 +32,26 @@ const Home: NextPage = () => {
         const result = JSON.parse(JSON.stringify(data.data));
 
         const anime = result.map((anime: any) => {
-
-          
           anime.entry.map((entry: any) => {
+            console.log(entry);
+            
             const data: IAnime = {
               title: `${entry.title}`,
               image: entry.images.webp,
               content: `${anime.content}`,
               url: `${anime.url}`,
-              mal_id: `${anime.mal_id}`,
+              mal_id: `${entry.mal_id}`,
             };
             
             setLatestAnime(prev => [...prev, data]);
+            
           });
         });
       } catch (err) {
         console.log(err);
       }
     })();
-  }, []);
+  });
   return (
     <Box>
       <div className={styles.screen}>
@@ -76,6 +79,7 @@ const Home: NextPage = () => {
                               title={anime.title}
                               image={anime.image}
                               mal_id={anime.mal_id}
+                              router = {router}
                               url={anime.url}
                               content={anime.content}
                             />
