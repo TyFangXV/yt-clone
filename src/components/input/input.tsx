@@ -10,19 +10,19 @@ const Input = () => {
     const [input, setInput] = recoil.useRecoilState(inputState)
     const inputRef = React.createRef<HTMLInputElement>();
 
-    useEffect(() => {
-
-    }, [input])
+    
     return (
         <div className={styles.container}>
-        <input
-            ref={inputRef}
-            type="search"
-            placeholder="Search..."
-            onEnded={() => console.log("entered")}
-            onChange={(e) => setInput(e.target.value)}
-        />
-        <BsSearch className={styles.icon}/>
+        <form>
+            <input
+                ref={inputRef}
+                type="search"
+                placeholder="Search..."
+                onChange={(e) => setInput(e.target.value)}
+            />
+            <BsSearch className={styles.icon}/>            
+        </form>
+
         <hr/>
         </div>
     );

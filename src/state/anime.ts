@@ -1,8 +1,14 @@
 import { atom } from "recoil";
-import { IAnime } from "../components/types/interface";
+import { AnimeData, IAnime } from "../utils/interface";
 
 
 export const lastestAnime = atom<IAnime[]>({
     key: 'lastestAnime',
     default: [],
+});
+
+
+export const CurrentAnime = atom<AnimeData | null>({
+    key: 'CurrentAnime',
+    default: null
 });

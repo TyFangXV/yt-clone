@@ -4,10 +4,10 @@ import { InputType } from 'zlib';
 import Card from '../components/card/card';
 import Nav from '../components/nav/nav';
 import styles from '../styles/Home.module.css';
-import {useRecoilState } from 'recoil';
+import {useRecoilState, useResetRecoilState } from 'recoil';
 import { inputState } from '../state/input';
-import { lastestAnime } from '../state/anime';
-import { IAnime } from '../components/utils/interface';
+import { CurrentAnime, lastestAnime } from '../state/anime';
+import { AnimeData, IAnime } from '../utils/interface';
 import Axios from 'axios';
 import { Box, Heading } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
@@ -16,12 +16,16 @@ import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const inputRef = React.createRef<InputType>();
-  const [input, setInput] = useRecoilState(inputState);
-  const [lastestAnimeData, setLatestAnime] =
-    useRecoilState<IAnime[]>(lastestAnime);
+  const [lastestAnimeData, setLatestAnime] = useRecoilState<IAnime[]>(lastestAnime);
+
+  const resetCurrentAnime = useResetRecoilState(CurrentAnime);
+
 
   useEffect(() => {
+    //clear the current anime
+    resetCurrentAnime();
+    //check if lastestAnimeData is empty
+    if(lastestAnimeData.length === 0){
     (async () => {
       try {
         const { data } = await Axios.get(
@@ -30,11 +34,8 @@ const Home: NextPage = () => {
 
         //parse the data and put the nessesary data into the state
         const result = JSON.parse(JSON.stringify(data.data));
-
         const anime = result.map((anime: any) => {
           anime.entry.map((entry: any) => {
-            console.log(entry);
-            
             const data: IAnime = {
               title: `${entry.title}`,
               image: entry.images.webp,
@@ -51,6 +52,7 @@ const Home: NextPage = () => {
         console.log(err);
       }
     })();
+  }
   });
   return (
     <Box>

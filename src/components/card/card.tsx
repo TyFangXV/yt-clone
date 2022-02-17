@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Box, Heading, Image } from '@chakra-ui/react';
 import React from 'react';
-import { IAnime } from '../utils/interface';
+import { IAnime } from '../../utils/interface';
 
 const Card: React.FC<IAnime> = ({ title, image, mal_id, router }) => {
   return (
