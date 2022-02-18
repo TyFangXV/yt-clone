@@ -12,3 +12,8 @@ export const CurrentAnime = atom<AnimeData | null>({
     key: 'CurrentAnime',
     default: null
 });
+
+export const searchAnime = atom<AnimeData[] | undefined>({
+    key: 'searchAnime',
+    default: undefined
+});

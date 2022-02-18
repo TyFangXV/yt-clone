@@ -23,6 +23,7 @@ const Card: React.FC<IAnime> = ({ title, image, mal_id, router }) => {
         objectFit="contain"
         maxW={'250px'}
         maxH={'400px'}
+        minH={'400px'}
       />
       <Box backgroundColor={'#4E3088'}>
         <Heading

@@ -3,8 +3,10 @@ import React, { KeyboardEvent } from 'react';
 import { ChevronLeftIcon } from '@chakra-ui/icons';
 import Logo from './logo';
 import { useRouter } from 'next/router';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { inputState } from '../../state/input';
+import { searchAnime } from '../../state/anime';
+import { searchPageLoadingStatus } from '../../state/loading';
 
 
 //check if the input is empty
@@ -17,12 +19,19 @@ const Nav = () => {
   const router = useRouter();
   const inputRef = React.createRef<HTMLInputElement>();
   const [input, setInput] = useRecoilState<string>(inputState);
+  const [loading, setLoading] = useRecoilState<boolean>(searchPageLoadingStatus);
 
+  const resetSearchAnime = useResetRecoilState(searchAnime);
 
   const handleKeyPress = (e:KeyboardEvent<HTMLInputElement>) => {
     if(e.key === 'Enter')
     {
       if(isEmpty(input)) alert('Please enter a valid input');
+      //reset the search anime state
+      resetSearchAnime();
+      //set the loading state
+      setLoading(true);
+      
       if(!isEmpty(input)) router.push(`/search?q=${input}`);
 
     }

@@ -72,6 +72,7 @@ const AnimePage: NextPage<AnimeData> = () => {
           };
         
           setAnimeData(filteredData);
+          
         } catch (err) {
           console.log(err);
         }

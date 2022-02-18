@@ -1,22 +1,97 @@
-import { NextPage } from "next";
-import React, { useEffect } from "react";
+import {
+  Box,
+  Center,
+  Divider,
+  Grid,
+  Heading,
+  HStack,
+  Image,
+} from '@chakra-ui/react';
+import axios from 'axios';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { atom, useRecoilState, useResetRecoilState } from 'recoil';
+import Card from '../components/card/card';
+import Nav from '../components/nav/nav';
+import { CurrentAnime, searchAnime } from '../state/anime';
+import { searchPageLoadingStatus } from '../state/loading';
+import { AnimeData } from '../utils/interface';
+
+export const Loading = atom<boolean>({
+    key: 'loading',
+    default: false,
+});
 
 
-const Search:NextPage = () => {
-    useEffect(() => {
-        //get the query from the url
-        const query = window.location.search.split("=")[1];
-        //get the anime data from the api
-        (async()=>{
-            
-        })
+const Search: NextPage = () => {
+  const [animeData, setAnimeData] = useRecoilState<AnimeData[] | undefined>(searchAnime);
+  const [loading, setLoading] = useRecoilState<boolean>(searchPageLoadingStatus);
+  const router = useRouter();
+  const { q } = router.query;
 
-    })
-    return (
-        <div>
-            Search
-        </div>
-    )
-}
+  const resetCurrentAnime = useResetRecoilState(CurrentAnime);
+
+
+  useEffect(() => {
+    //clear the current anime
+    resetCurrentAnime();
+    //get the query from the url
+
+    if (q === undefined) router.back();
+
+    //get the anime data from the api
+    if (animeData === undefined) {
+      (async () => {
+        const { data } = await axios.get(
+          `https://api.jikan.moe/v4/anime?q=${q}`
+        );
+
+        //parse the data
+        const result: AnimeData[] = JSON.parse(JSON.stringify(data.data));
+
+        //set the data
+        setAnimeData(result);
+        setLoading(false);
+      })();
+    }
+  });
+  return (
+    <div>
+      {loading ? (
+        <Box>
+          <Heading>Loading...</Heading>
+        </Box>
+      ) : (
+        <Box background="#191919">
+          <Nav />
+          <Center marginTop="3vh">
+            <Box>
+            <Heading color="whiteAlpha.700" as="h1" size="lg" fontWeight="bold">
+            &quot;{q?.toString().toLocaleUpperCase()}&quot;
+            </Heading>
+            <Divider />
+            <Grid templateColumns="repeat(5, 2fr)" gap={6}>
+              {animeData?.map((anime: AnimeData, index) => {
+                return (
+                  <Card
+                    key={index}
+                    title={anime.title}
+                    image={anime.images.webp}
+                    mal_id={anime.mal_id.toString()}
+                    router={router}
+                    content={anime.synopsis}
+                    url={anime.url}
+                  />
+                );
+              })}
+            </Grid>
+            </Box>
+          </Center>
+        </Box>
+      )}
+    </div>
+  );
+};
 
 export default Search;
