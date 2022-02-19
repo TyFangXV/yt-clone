@@ -101,7 +101,7 @@ const AnimeHeader: React.FC = () => {
             backgroundColor="#040B25"
             color={'white'}
           >
-            <a href={data?.url}>Start EP1</a>
+            <a href={`https://gogoanime.fi/${data?.title.replaceAll(" ", "-").toLocaleLowerCase()}-episode-1`}>Start EP1</a>
           </Button>
         </Flex>
       </Box>

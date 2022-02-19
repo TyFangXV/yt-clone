@@ -44,7 +44,7 @@ const Search: NextPage = () => {
     if (animeData === undefined) {
       (async () => {
         const { data } = await axios.get(
-          `https://api.jikan.moe/v4/anime?q=${q}`
+          `https://api.jikan.moe/v4/anime?q=${q}&sfw`
         );
 
         //parse the data

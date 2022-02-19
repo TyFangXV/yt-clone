@@ -103,7 +103,7 @@ const AnimePage: NextPage<AnimeData> = () => {
                 <Heading color={'whiteAlpha.700'}>Episodes</Heading>
               <Divider minW={"50vw"}/>
               <Center>
-                <List amount={animeData?.episodes}/>                  
+                <List amount={animeData?.episodes} title={animeData.title} mal_id={animeData?.mal_id}/>                  
               </Center>
               
              </Flex>    
