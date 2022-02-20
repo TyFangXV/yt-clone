@@ -14,6 +14,8 @@ import { AnimeData } from '../utils/interface';
 
 const AnimeHeader: React.FC = () => {
   const data = useRecoilValue<AnimeData | null>(CurrentAnime);
+  console.log(`https://gogoanime.fi/${data?.title.replaceAll(/\s|_|\.|:|-/gm, "-").replaceAll("--", "-").toLocaleLowerCase()}-episode-1`);
+  
   return (
     <Box
       marginTop={'2vh'}
@@ -60,7 +62,7 @@ const AnimeHeader: React.FC = () => {
         justifyContent="space-between"
       >
         <Heading as="h1" size="xl" color={'black'} fontWeight="medium">
-          {data?.title}
+          {data?.title_english}
           <Tag marginTop={'15px'} marginLeft="5px">
             Status: {data?.status}
           </Tag>
@@ -101,7 +103,7 @@ const AnimeHeader: React.FC = () => {
             backgroundColor="#040B25"
             color={'white'}
           >
-            <a href={`https://gogoanime.fi/${data?.title.replaceAll(" ", "-").toLocaleLowerCase()}-episode-1`}>Start EP1</a>
+            <a href={`https://gogoanime.fi/${data?.title.replaceAll(/\s|_|:|-/gm, "-").replaceAll(/--/gm, "-").toLocaleLowerCase()}-episode-1`}>Start EP1</a>
           </Button>
         </Flex>
       </Box>

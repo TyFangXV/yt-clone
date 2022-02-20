@@ -5,7 +5,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "install" : "yarn install && node node_modules/puppeteer/install.js",
     "lint": "next lint"
   },
   "dependencies": {

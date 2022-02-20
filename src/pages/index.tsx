@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const [lastestAnimeData, setLatestAnime] = useRecoilState<IAnime[]>(lastestAnime);
+  const [lastestAnimeData, setLatestAnime] = useRecoilState<AnimeData[]>(lastestAnime);
 
   const resetCurrentAnime = useResetRecoilState(CurrentAnime);
 
@@ -29,25 +29,12 @@ const Home: NextPage = () => {
     (async () => {
       try {
         const { data } = await Axios.get(
-          `https://api.jikan.moe/v4/recommendations/anime`
+          `https://api.jikan.moe/v4/top/anime`
         );
 
         //parse the data and put the nessesary data into the state
         const result = JSON.parse(JSON.stringify(data.data));
-        const anime = result.map((anime: any) => {
-          anime.entry.map((entry: any) => {
-            const data: IAnime = {
-              title: `${entry.title}`,
-              image: entry.images.webp,
-              content: `${anime.content}`,
-              url: `${anime.url}`,
-              mal_id: `${entry.mal_id}`,
-            };
-            
-            setLatestAnime(prev => [...prev, data]);
-            
-          });
-        });
+        setLatestAnime(result);
       } catch (err) {
         console.log(err);
       }
@@ -74,16 +61,16 @@ const Home: NextPage = () => {
         >
           {
            lastestAnimeData.length > 0 ?
-                        lastestAnimeData.slice(0, 25).reverse().map((anime: IAnime, index) => {
+                        lastestAnimeData.slice(0, 25).reverse().map((anime: AnimeData, index) => {
                           return (
                             <Card
                               key={index}
                               title={anime.title}
-                              image={anime.image}
-                              mal_id={anime.mal_id}
+                              image={anime.images.webp}
+                              mal_id={anime.mal_id.toString()}
                               router = {router}
                               url={anime.url}
-                              content={anime.content}
+                              content={anime.synopsis}
                             />
                           );
                         })   

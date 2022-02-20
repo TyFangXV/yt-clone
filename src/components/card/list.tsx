@@ -26,8 +26,7 @@ const List: React.FC<dataProps> = ({amount, title, mal_id}) => {
         <Box key={index} cursor="pointer" title={`Click to watch EP${index}`}>
           <a
             href={`/player/${title
-              ?.replaceAll(' ', '-')
-              .toLocaleLowerCase()}-episode-${index + 1}?id=${mal_id}&ep=${
+              ?.replaceAll(/\s|_|:|-/gm, "-").replaceAll("--", "-").toLocaleLowerCase()}-episode-${index + 1}?id=${mal_id}&ep=${
               index + 1
             }&Tep=${amount}&title=${title}`}
           >

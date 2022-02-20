@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Box,
   Center,
@@ -6,7 +7,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Nav from '../../components/nav/nav';
@@ -28,6 +29,7 @@ const AnimePage: NextPage<AnimeData> = () => {
   
   
   useEffect(() => {
+    if(!router.isReady) return;
     if(animeData === null) {
       (async () => {
         try {
@@ -78,7 +80,7 @@ const AnimePage: NextPage<AnimeData> = () => {
         }
       })();
     }
-  });
+  },[router.isReady]);
 
   return (
     <div>
