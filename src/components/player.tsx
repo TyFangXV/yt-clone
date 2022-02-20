@@ -2,31 +2,20 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Heading } from '@chakra-ui/react';
 
-export interface queryProps {
+export interface IqueryProps {
   animeName: string;
 }
 
-interface StreamingLinkProps {
+interface IStreamingLinkProps {
   name: string;
   link: string;
 }
 
-interface Episodes{
-  mal_id: string;
-  title: string;
-  url: string;
-  duration: number;
-  aired : string;
-  filler: boolean;
-  recap: boolean;
-  synopsis: string;
-}
 
-const Player: React.FC<queryProps> = (animeName) => {
+const Player: React.FC<IqueryProps> = (animeName) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [searchStatus, setSearchStatus] = useState<boolean>(true);
-  const [links, setLink] = useState<StreamingLinkProps[]>();
-  const [episodeData, setEpisodeData] = useState<string>();
+  const [links, setLink] = useState<IStreamingLinkProps[]>();
 
   
 
@@ -37,7 +26,6 @@ const Player: React.FC<queryProps> = (animeName) => {
           const res = await axios.get(
             `/api/link?mal_id=${animeName.animeName}`
           );
-
           if (res.status === 500) setSearchStatus(false);
           setLink(JSON.parse(JSON.stringify(res.data)));
           setSearchStatus(true);
