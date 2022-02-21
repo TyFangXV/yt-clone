@@ -49,7 +49,12 @@ const Search: NextPage = () => {
 
         //parse the data
         const result: AnimeData[] = JSON.parse(JSON.stringify(data.data));
-
+        //sort the array by the type
+        result.sort((a, b) => {
+          if (a.type === 'TV') return -1;
+          if (b.type === 'TV') return 1;
+          return 0;
+        });
         //set the data
         setAnimeData(result);
         setLoading(false);
@@ -77,12 +82,12 @@ const Search: NextPage = () => {
                   <Card
                     key={index}
                     title={anime.title}
-                    image={anime.images.webp}
+                    image = {anime.images.webp}
                     mal_id={anime.mal_id.toString()}
                     router={router}
                     content={anime.synopsis}
-                    url={anime.url}
-                  />
+                    url={anime.url}  
+                    />
                 );
               })}
             </Grid>

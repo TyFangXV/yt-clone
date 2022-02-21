@@ -139,6 +139,7 @@ export interface IAnime{
         licensors: Licensor[];
         studios: Studio[];
         genres: Genre[];
+        [key: string]: any;
     }
 
 

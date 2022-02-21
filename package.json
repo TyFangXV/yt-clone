@@ -5,6 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "expose" : "yarn build && yarn start",
     "lint": "next lint"
   },
   "dependencies": {

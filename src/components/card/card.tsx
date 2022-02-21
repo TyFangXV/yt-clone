@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Box, Heading, Image } from '@chakra-ui/react';
 import React from 'react';
-import { IAnime } from '../../utils/interface';
+import { AnimeData, IAnime } from '../../utils/interface';
 
 const Card: React.FC<IAnime> = ({ title, image, mal_id, router }) => {
   return (
@@ -14,16 +14,12 @@ const Card: React.FC<IAnime> = ({ title, image, mal_id, router }) => {
       borderRadius="5px"
       title='Click to see more'
       flexDirection="column"
-      maxW={'250px'}
-      maxHeight={'450px'}
+      maxW={'300px'}
     >
       <Image
         src={image.large_image_url}
         alt={title}
         objectFit="contain"
-        maxW={'250px'}
-        maxH={'400px'}
-        minH={'400px'}
       />
       <Box backgroundColor={'#4E3088'}>
         <Heading
