@@ -2,33 +2,40 @@ import { Box, Grid, Tag } from '@chakra-ui/react';
 import React from 'react';
 
 export interface dataProps {
-  amount: number ;
-  title: string ;
+  amount: number;
+  title: string;
   mal_id: number;
 }
 
-const List: React.FC<dataProps> = ({amount, title, mal_id}) => {
-  if (amount === null)
-  {
-      return (
-        <Tag
-          padding={'15px'}
-          _hover={{ backgroundColor: '#2A2164', color: 'white' }}
-          backgroundColor="#7741BD"
-        >
-          N/A
-        </Tag>
-      );    
+const List: React.FC<dataProps> = ({ amount, title, mal_id }) => {
+  const url = `${title.replaceAll(/\s|_|:|\.|-|!/gm, '-').replaceAll('--', '-').toLocaleLowerCase()}`;
+
+  //if there is no episode data, return nothing
+  if (amount === null) {
+    return (
+      <Tag
+        padding={'15px'}
+        _hover={{ backgroundColor: '#2A2164', color: 'white' }}
+        backgroundColor="#7741BD"
+      >
+        N/A
+      </Tag>
+    );
   }
   return (
     <Grid templateColumns="repeat(15, 15fr)" gap={6}>
       {[...Array(amount)].map((_, index) => (
-        <Box key={index} cursor="pointer" title={`Click to watch EP${index}`}>
+        <Box
+          key={index}
+          cursor="pointer"
+          title={`Click to watch EP${index + 1}`}
+        >
           <a
-            href={`/player/${title
-              ?.replaceAll(/\s|_|:|-/gm, "-").replaceAll("--", "-").toLocaleLowerCase()}-episode-${index + 1}?id=${mal_id}&ep=${
-              index + 1
-            }&Tep=${amount}&title=${title}`}
+            href={`/player/${
+              url.endsWith('-')
+                ? url.concat(`episode-${index + 1}`)
+                : url.concat(`-episode-${index + 1}`)
+            }?id=${mal_id}&ep=${index + 1}&Tep=${amount}&title=${title}`}
           >
             <Tag
               padding={'15px'}

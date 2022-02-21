@@ -51,6 +51,7 @@ const Player: React.FC<IqueryProps> = (animeName) => {
           <iframe
             style={{ minWidth: '50vw', minHeight: '55vh' }}
             src={links?.at(1)?.link}
+            allowFullScreen
             scrolling="no"
           ></iframe>
         )}
