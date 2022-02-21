@@ -48,20 +48,28 @@ const PlayerPage: NextPage = () => {
     setTimeout(() => {
       if (episodeData === undefined) {
         (async () => {
-          const { data } = await axios.get(
-            `https://api.jikan.moe/v4/anime/${id}/episodes/${ep}`
-          );
-          const { data: imagesData } = await axios.get(
-            `https://api.jikan.moe/v4/anime/${id}/pictures`
-          );
+          try {
+            const { data } = await axios.get(
+              `https://api.jikan.moe/v4/anime/${id}/episodes/${ep}`
+            );
+            const { data: imagesData } = await axios.get(
+              `https://api.jikan.moe/v4/anime/${id}/pictures`
+            );
 
-          //parse data
-          const filteredData = JSON.parse(JSON.stringify(data.data));
-          const filteredImages = JSON.parse(JSON.stringify(imagesData.data));
 
-          setImages(filteredImages);
-          setEpisodeData(filteredData);
-          setLoading(false);
+
+            //parse data
+            const filteredData = JSON.parse(JSON.stringify(data.data));
+            const filteredImages = JSON.parse(JSON.stringify(imagesData.data));
+
+            setImages(filteredImages);
+            setEpisodeData(filteredData);            
+            setLoading(false);
+          } catch (error) {
+            console.log(`Error: ${error}`);
+            setLoading(false);  
+          } 
+
         })();
       }      
     }, 1000);
