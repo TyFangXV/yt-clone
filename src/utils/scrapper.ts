@@ -13,6 +13,8 @@ export const scrapper = async(link:string)=> {
         const title = html('#wrapper_bg > section > section.content_left > div:nth-child(1) > div.anime_video_body > div.anime_muti_link > ul > li.vidcdn > a').attr("data-video");
         return title;
         
+    }else{
+        return null;
     }
 
     } catch (error) {

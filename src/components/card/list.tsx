@@ -5,9 +5,10 @@ export interface dataProps {
   amount: number;
   title: string;
   mal_id: number;
+  type: string;
 }
 
-const List: React.FC<dataProps> = ({ amount, title, mal_id }) => {
+const List: React.FC<dataProps> = ({ amount, title, mal_id, type}) => {
   const url = `${title.replaceAll(";", "").replaceAll(/\s|[&\/\\#, +()$~%.'":*?<>{}]/g, '-').replaceAll('--', '-').toLocaleLowerCase()}`;
 
   //if there is no episode data, return nothing
@@ -35,7 +36,7 @@ const List: React.FC<dataProps> = ({ amount, title, mal_id }) => {
               url.endsWith('-')
                 ? url.concat(`episode-${index + 1}`)
                 : url.concat(`-episode-${index + 1}`)
-            }?id=${mal_id}&ep=${index + 1}&Tep=${amount}&title=${title}`}
+            }?id=${mal_id}&ep=${index + 1}&Tep=${amount}&title=${title}&type=${type}`}
           >
             <Tag
               padding={'15px'}

@@ -70,7 +70,7 @@ const Home: NextPage = () => {
                   return (
                     <Card
                       key={index}
-                      title={anime.title}
+                      title={anime.title_english || anime.title}
                       image={anime.images.webp}
                       mal_id={anime.mal_id.toString()}
                       router={router}
