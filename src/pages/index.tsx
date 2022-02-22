@@ -1,16 +1,14 @@
 import type { NextPage } from 'next';
 import React, { useEffect } from 'react';
-import { InputType } from 'zlib';
+import { useRecoilState, useResetRecoilState } from 'recoil';
+import { CurrentAnime, lastestAnime } from '../state/anime';
+import { AnimeData } from '../utils/interface';
+import { Box, Center, Heading } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import Axios from 'axios';
 import Card from '../components/card/card';
 import Nav from '../components/nav/nav';
 import styles from '../styles/Home.module.css';
-import { useRecoilState, useResetRecoilState } from 'recoil';
-import { inputState } from '../state/input';
-import { CurrentAnime, lastestAnime } from '../state/anime';
-import { AnimeData, IAnime } from '../utils/interface';
-import Axios from 'axios';
-import { Box, Center, Heading } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -33,7 +31,7 @@ const Home: NextPage = () => {
           //parse the data and put the nessesary data into the state
           const result: AnimeData[] = JSON.parse(JSON.stringify(data.data));
           //sort the array by the type
-          result.sort((a, b) => {
+          result.sort((a:AnimeData, b) => {
             if (a.type === 'TV') return 1;
             if (b.type === 'Movie') return -1;
             return 0;
@@ -72,12 +70,12 @@ const Home: NextPage = () => {
                   return (
                     <Card
                       key={index}
-                      title={anime.title}
+                      title={anime.title_english || anime.title}
                       image={anime.images.webp}
                       mal_id={anime.mal_id.toString()}
                       router={router}
                       url={anime.url}
-                      content={anime.synopsis}
+                      content={anime.synopsis || "Cannot find the synopsis for this anime"}
                     />
                   );
                 })

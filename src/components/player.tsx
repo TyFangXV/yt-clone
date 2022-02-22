@@ -15,7 +15,7 @@ interface IStreamingLinkProps {
 const Player: React.FC<IqueryProps> = (animeName) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [searchStatus, setSearchStatus] = useState<boolean>(true);
-  const [links, setLink] = useState<IStreamingLinkProps[]>();
+  const [links, setLink] = useState<IStreamingLinkProps[] | string>();
 
   
 
@@ -27,9 +27,11 @@ const Player: React.FC<IqueryProps> = (animeName) => {
             `/api/link?mal_id=${animeName.animeName}`
           );
           if (res.status === 500) setSearchStatus(false);
-          setLink(JSON.parse(JSON.stringify(res.data)));
+          if(res.data !== undefined) setLink(JSON.parse(JSON.stringify(res.data)));
           setSearchStatus(true);
           setLoading(false);
+          console.log(links);
+          
         } catch (error) {
           setSearchStatus(false);
           console.log(error);
@@ -50,7 +52,7 @@ const Player: React.FC<IqueryProps> = (animeName) => {
         ) : (
           <iframe
             style={{ minWidth: '50vw', minHeight: '55vh' }}
-            src={links?.at(1)?.link}
+            src={links?.toString() as string || "/playernotfound"}
             allowFullScreen
             scrolling="no"
           ></iframe>

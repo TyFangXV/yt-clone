@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {getAnimeLink} from '../../utils/scrapper';
+import {scrapper} from '../../utils/scrapper';
 
 
 
@@ -27,10 +27,11 @@ export default async function handler(
     {
         const {status} = await axios.get(`https://gogoanime.fi/${data.mal_id}`);
 
+    
         
         if(status === 200)
         {
-            const links = await getAnimeLink(`https://gogoanime.fi/${data.mal_id}`);
+            const links = await scrapper(`https://gogoanime.fi/${data.mal_id}`);
             if(links === null) res.status(500).json({error: "Could not get anime link"});
             else res.status(200).json(links);            
         }

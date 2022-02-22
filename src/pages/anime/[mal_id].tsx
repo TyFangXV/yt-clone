@@ -7,7 +7,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 import { NextPage } from 'next';
-import { Router, useRouter } from 'next/router';
+import {useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import Nav from '../../components/nav/nav';
@@ -17,6 +17,7 @@ import axios from 'axios';
 import List from '../../components/card/list';
 import AnimeHeader from '../../components/anime-header';
 import { CurrentAnime } from '../../state/anime';
+import { type } from 'os';
 
 
 
@@ -105,7 +106,7 @@ const AnimePage: NextPage<AnimeData> = () => {
                 <Heading color={'whiteAlpha.700'}>Episodes</Heading>
               <Divider minW={"50vw"}/>
               <Center>
-                <List amount={animeData?.episodes} title={animeData.title} mal_id={animeData?.mal_id}/>                  
+                <List amount={animeData?.episodes} title={animeData.title} mal_id={animeData?.mal_id}  type={animeData?.type}/>                  
               </Center>
               
              </Flex>    
