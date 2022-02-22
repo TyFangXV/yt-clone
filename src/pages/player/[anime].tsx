@@ -61,7 +61,6 @@ const PlayerPage: NextPage = () => {
             //parse data
             const filteredData = JSON.parse(JSON.stringify(data.data));
             const filteredImages = JSON.parse(JSON.stringify(imagesData.data));
-
             setImages(filteredImages);
             setEpisodeData(filteredData);            
             setLoading(false);

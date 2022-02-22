@@ -30,6 +30,8 @@ const Player: React.FC<IqueryProps> = (animeName) => {
           setLink(JSON.parse(JSON.stringify(res.data)));
           setSearchStatus(true);
           setLoading(false);
+          console.log(links);
+          
         } catch (error) {
           setSearchStatus(false);
           console.log(error);
@@ -50,7 +52,7 @@ const Player: React.FC<IqueryProps> = (animeName) => {
         ) : (
           <iframe
             style={{ minWidth: '50vw', minHeight: '55vh' }}
-            src={links?.at(1)?.link}
+            src={links?.toString() as string}
             allowFullScreen
             scrolling="no"
           ></iframe>
