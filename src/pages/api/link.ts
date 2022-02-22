@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {getAnimeLink, scrapper} from '../../utils/scrapper';
+import {scrapper} from '../../utils/scrapper';
 
 
 
