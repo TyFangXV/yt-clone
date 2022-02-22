@@ -4,7 +4,7 @@ import puppeteer from "puppeteer";
 
 export const getAnimeLink = async (baseUrl: string) => {
     try {
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
         const page = await browser.newPage();
         await page.goto(baseUrl);
         await page.waitForSelector('.content_left > .main_body > .anime_video_body > .anime_muti_link > ul')

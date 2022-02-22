@@ -8,7 +8,7 @@ export interface dataProps {
 }
 
 const List: React.FC<dataProps> = ({ amount, title, mal_id }) => {
-  const url = `${title.replaceAll(/\s|[&\/\\#, +()$~%.'":*?<>{}]/g, '-').replaceAll('--', '-').toLocaleLowerCase()}`;
+  const url = `${title.replaceAll(";", "").replaceAll(/\s|[&\/\\#, +()$~%.'":*?<>{}]/g, '-').replaceAll('--', '-').toLocaleLowerCase()}`;
 
   //if there is no episode data, return nothing
   if (amount === null) {

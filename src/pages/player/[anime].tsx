@@ -97,7 +97,9 @@ const PlayerPage: NextPage = () => {
                 {title}
               </Heading>
             </Box>
-          </Box><Box margin={"5vh  0  5vh 0"}>
+          </Box>
+
+          <Box margin={"5vh  0  5vh 0"}>
               <Center>
                 <Flex flexDirection={"column"}>
                   <Heading color={'whiteAlpha.700'}>Episodes</Heading>
@@ -107,7 +109,9 @@ const PlayerPage: NextPage = () => {
                   </Center>
                 </Flex>
               </Center>
-            </Box><Box
+          </Box>
+
+            <Box
               marginTop={'2vh'}
               backgroundColor={'#4E3088'}
               display={'flex'}
@@ -121,7 +125,7 @@ const PlayerPage: NextPage = () => {
                   flexDirection={'row'}
                 >
                   <Image
-                    src={images?.at(0)?.webp.large_image_url}
+                    src={images?.at(0)?.webp.large_image_url || "https://data.whicdn.com/images/343322467/original.jpg"}
                     maxW="50vw"
                     maxH="50vh"
                     minW="15vw"
@@ -145,7 +149,7 @@ const PlayerPage: NextPage = () => {
                       </Heading>
                       <Divider />
                       <Text color={'beige'} fontSize="1xl">
-                        {episodeData?.synopsis}
+                        {episodeData?.synopsis || "Cannot find the synopsis for this anime"}
                       </Text>
                     </Box>
                   </div>
