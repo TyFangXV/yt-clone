@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Box, Heading } from '@chakra-ui/react';
 
+
 export interface IqueryProps {
   animeName: string;
 }
@@ -30,8 +31,6 @@ const Player: React.FC<IqueryProps> = (animeName) => {
           if(res.data !== undefined) setLink(JSON.parse(JSON.stringify(res.data)));
           setSearchStatus(true);
           setLoading(false);
-          console.log(links);
-          
         } catch (error) {
           setSearchStatus(false);
           console.log(error);
@@ -50,12 +49,13 @@ const Player: React.FC<IqueryProps> = (animeName) => {
         {loading ? (
           <Heading>Loading</Heading>
         ) : (
-          <iframe
-            style={{ minWidth: '50vw', minHeight: '55vh' }}
-            src={links?.toString() as string || "/playernotfound"}
-            allowFullScreen
-            scrolling="no"
-          ></iframe>
+            <iframe
+              style={{ minWidth: '50vw', minHeight: '55vh' }}
+              src={links?.toString() as string || "/playernotfound"}
+              allowFullScreen
+              id="player"
+              scrolling="no"
+            ></iframe>
         )}
       </Box>
     );
