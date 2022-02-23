@@ -47,7 +47,8 @@ const fetchTvEp = async (id: string, ep: string) => {
     const { data: imagesData } = await axios.get(
       `https://api.jikan.moe/v4/anime/${id}/pictures`
     );
-    const res: FetchedData = { data: data, images: imagesData };
+    const res: FetchedData = { data: data.data, images: imagesData.data[1].webp };
+    
     return res;
   } catch (error) {
     console.log(error);
@@ -59,7 +60,9 @@ const fetchTvEp = async (id: string, ep: string) => {
 const fetchNonTvEp = async (id: string) => {
   try {
     const { data } = await axios.get(`https://api.jikan.moe/v4/anime/${id}`);
-    const res: FetchedData = { data: data, images: data.images };
+    console.log(data.data);
+    
+    const res: FetchedData = { data: data.data, images: data.data.images.webp };
     return res;
   } catch (error) {
     console.log(error);
