@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import { AnimeData, IAnime } from "../utils/interface";
+import { AnimeData } from "../interface";
 
 
 export const lastestAnime = atom<AnimeData[]>({

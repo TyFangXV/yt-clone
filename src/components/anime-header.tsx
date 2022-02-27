@@ -8,7 +8,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import React from 'react';
-import { CurrentAnime } from '../state/anime';
+import { CurrentAnime } from '../utils/state/anime';
 import { useRecoilValue } from 'recoil';
 import { AnimeData } from '../utils/interface';
 
