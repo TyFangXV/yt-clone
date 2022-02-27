@@ -1,9 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import List from '../../components/card/list';
-import axios from 'axios';
 import {
   Box,
   Center,
@@ -12,33 +6,17 @@ import {
   Heading,
   Image,
   Tag,
-  Text,
+  Text
 } from '@chakra-ui/react';
-import Player from '../../components/player';
+import axios from 'axios';
+import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import AnimeDataHeader from '../../components/anime-data-header';
+import List from '../../components/card/list';
 import Nav from '../../components/nav/nav';
-import { ICoverImage, Images } from '../../utils/interface';
-
-export interface IqueryProps {
-  mal_id: string | undefined;
-  id: string | undefined;
-  ep: string | undefined;
-}
-
-interface IEpisodes {
-  mal_id: string;
-  title: string;
-  url: string;
-  duration: number;
-  aired: string;
-  filler: boolean;
-  recap: boolean;
-  synopsis: string;
-}
-
-interface FetchedData {
-  data: IEpisodes;
-  images: ICoverImage;
-}
+import Player from '../../components/player';
+import { FetchedData, ICoverImage, IEpisodes } from '../../utils/interface';
 const fetchTvEp = async (id: string, ep: string) => {
   try {
     const { data } = await axios.get(
@@ -60,7 +38,6 @@ const fetchTvEp = async (id: string, ep: string) => {
 const fetchNonTvEp = async (id: string) => {
   try {
     const { data } = await axios.get(`https://api.jikan.moe/v4/anime/${id}`);
-    console.log(data.data);
     
     const res: FetchedData = { data: data.data, images: data.data.images.webp };
     return res;
@@ -84,16 +61,20 @@ const PlayerPage: NextPage = () => {
       if (episodeData === undefined) {
         (async () => {
           try {
+            //check if type of anime to send requesto to the right endpoint
             const res: FetchedData =
               type === 'TV'
-                ? ((await fetchTvEp(id?.toString() as string,ep?.toString() as string)) as FetchedData)
-                : ((await fetchNonTvEp( id?.toString() as string)) as FetchedData);
+                ? ((await fetchTvEp(
+                    id?.toString() as string,
+                    ep?.toString() as string
+                  )) as FetchedData)
+                : ((await fetchNonTvEp(
+                    id?.toString() as string
+                  )) as FetchedData);
 
-                console.log(res);
-                
             if (res === null) return;
             //parse data
-            const data:FetchedData = JSON.parse(JSON.stringify(res));
+            const data: FetchedData = JSON.parse(JSON.stringify(res));
             setImages(data.images);
             setEpisodeData(data.data);
             setLoading(false);
@@ -104,7 +85,7 @@ const PlayerPage: NextPage = () => {
         })();
       }
     }, 1000);
-  }, [router.isReady]);
+  }, [ep, episodeData, id, router.isReady, type]);
 
   //check if all the query is there
   if (!anime || !id || !ep || !Tep || !title || !type) {
@@ -146,65 +127,66 @@ const PlayerPage: NextPage = () => {
             </Center>
           </Box>
 
-          <Box
-            marginTop={'2vh'}
-            backgroundColor={'#4E3088'}
-            display={'flex'}
-            flexDirection="row"
-            justifyContent="space-around"
-          >
-            <div>
-              <Box
-                display={'flex'}
-                justifyContent="space-between"
-                flexDirection={'row'}
-              >
-                <Image
-                  src={
-                    images?.large_image_url ||
-                    'https://data.whicdn.com/images/343322467/original.jpg'
-                  }
-                  maxW="50vw"
-                  maxH="50vh"
-                  minW="15vw"
-                  minH="25vh"
-                  margin="1vh 0 1vh 0"
-                  alt="Thumbnail"
-                />
-                <div>
-                  <Box
-                    maxW={'60vw'}
-                    display="flex"
-                    flexDirection={'column'}
-                    justifyContent="space-between"
-                    textAlign={'left'}
-                    marginLeft="10vw"
-                  >
-                    <Heading
-                      as="h1"
-                      size="xl"
-                      color={'black'}
-                      fontWeight="medium"
-                    >
-                      {episodeData?.title}
-                      <Tag marginTop={'15px'} marginLeft="5px">
-                        Type: {episodeData?.filler ? 'Filler' : 'Episodic'}
-                      </Tag>
-                    </Heading>
-                    <Divider />
-                    <Text color={'beige'} fontSize="1xl">
-                      {episodeData?.synopsis ||
-                        'Cannot find the synopsis for this anime'}
-                    </Text>
-                  </Box>
-                </div>
-              </Box>
-            </div>
-          </Box>
+          <AnimeDataHeader images={images} episodeData={episodeData}/>
         </>
       )}
     </Box>
   );
+
+  function animeDataHeader() {
+    return (
+      <Box
+        marginTop={'2vh'}
+        backgroundColor={'#4E3088'}
+        display={'flex'}
+        flexDirection="row"
+        justifyContent="space-around"
+      >
+        <div>
+          <Box
+            display={'flex'}
+            justifyContent="space-between"
+            flexDirection={'row'}
+          >
+            <Image
+              src={
+                images?.large_image_url ||
+                'https://data.whicdn.com/images/343322467/original.jpg'
+              }
+              maxW="50vw"
+              maxH="50vh"
+              minW="15vw"
+              minH="25vh"
+              margin="1vh 0 1vh 0"
+              alt="Thumbnail"
+            />
+            <div>
+              <Box
+                maxW={'60vw'}
+                display="flex"
+                flexDirection={'column'}
+                justifyContent="space-between"
+                textAlign={'left'}
+                marginLeft="10vw"
+              >
+                <Heading as="h1" size="xl" color={'black'} fontWeight="medium">
+                  {episodeData?.title}
+                  <Tag marginTop={'15px'} marginLeft="5px">
+                    Type: {episodeData?.filler ? 'Filler' : 'Episodic'}
+                  </Tag>
+                </Heading>
+                <Divider />
+                <Text color={'beige'} fontSize="1xl">
+                  {episodeData?.synopsis ||
+                    'Cannot find the synopsis for this anime'}
+                </Text>
+              </Box>
+            </div>
+          </Box>
+        </div>
+      </Box>
+    );
+  }
 };
 
 export default PlayerPage;

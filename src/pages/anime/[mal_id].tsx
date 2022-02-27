@@ -16,7 +16,7 @@ import Head from 'next/head';
 import axios from 'axios';
 import List from '../../components/card/list';
 import AnimeHeader from '../../components/anime-header';
-import { CurrentAnime } from '../../state/anime';
+import { CurrentAnime } from '../../utils/state/anime';
 import { type } from 'os';
 
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Box, Heading } from '@chakra-ui/react';
 
 
+
 export interface IqueryProps {
   animeName: string;
 }

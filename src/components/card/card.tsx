@@ -15,6 +15,7 @@ const Card: React.FC<IAnime> = ({ title, image, mal_id, router }) => {
       title='Click to see more'
       flexDirection="column"
       maxW={'300px'}
+      maxH={"450px"}
     >
       <Image
         src={image.large_image_url}

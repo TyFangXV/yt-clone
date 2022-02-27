@@ -10,7 +10,7 @@ export const scrapper = async(link:string)=> {
 
     if(status === 200) {
        const html = cheerio.load(data);
-        const title = html('#wrapper_bg > section > section.content_left > div:nth-child(1) > div.anime_video_body > div.anime_muti_link > ul > li.vidcdn > a').attr("data-video");
+        const title = html('#wrapper_bg > section > section.content_left > div:nth-child(1) > div.anime_video_body > div.anime_muti_link > ul > li.anime > a').attr("data-video");
         return title;
         
     }else{

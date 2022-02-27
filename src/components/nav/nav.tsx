@@ -4,9 +4,9 @@ import { ChevronLeftIcon } from '@chakra-ui/icons';
 import Logo from './logo';
 import { useRouter } from 'next/router';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { inputState } from '../../state/input';
-import { searchAnime } from '../../state/anime';
-import { searchPageLoadingStatus } from '../../state/loading';
+import { inputState } from '../../utils/state/input';
+import { searchAnime } from '../../utils/state/anime';
+import { searchPageLoadingStatus } from '../../utils/state/loading';
 
 
 //check if the input is empty

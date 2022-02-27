@@ -142,4 +142,27 @@ export interface IAnime{
         [key: string]: any;
     }
 
+export interface IqueryProps {
+  mal_id: string | undefined;
+  id: string | undefined;
+  ep: string | undefined;
+}
+
+export interface IEpisodes {
+  mal_id: string;
+  title: string;
+  url: string;
+  duration: number;
+  aired: string;
+  filler: boolean;
+  recap: boolean;
+  synopsis: string;
+}
+
+export interface FetchedData {
+  data: IEpisodes;
+  images: ICoverImage;
+}
+
+
 

@@ -3,20 +3,18 @@ import {
   Center,
   Divider,
   Grid,
-  Heading,
-  HStack,
-  Image,
+  Heading
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { atom, useRecoilState, useResetRecoilState } from 'recoil';
 import Card from '../components/card/card';
 import Nav from '../components/nav/nav';
-import { CurrentAnime, searchAnime } from '../state/anime';
-import { searchPageLoadingStatus } from '../state/loading';
 import { AnimeData } from '../utils/interface';
+import { CurrentAnime, searchAnime } from '../utils/state/anime';
+import { searchPageLoadingStatus } from '../utils/state/loading';
 
 export const Loading = atom<boolean>({
     key: 'loading',

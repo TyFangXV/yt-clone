@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import React, { useEffect } from 'react';
 import { useRecoilState, useResetRecoilState } from 'recoil';
-import { CurrentAnime, lastestAnime } from '../state/anime';
+import { CurrentAnime, lastestAnime } from '../utils/state/anime';
 import { AnimeData } from '../utils/interface';
 import { Box, Center, Heading } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
           <Box
           textAlign={"center"}
             display={'grid'}
-            gridGap={'2vw'}
+            gridGap={'5vw'}
             gridTemplateColumns={'repeat(auto-fit, minmax(300px, 1fr))'}
             background="#191919"
             overflowY="hidden"
