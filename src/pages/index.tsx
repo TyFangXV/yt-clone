@@ -25,7 +25,7 @@ const Home: NextPage = () => {
       (async () => {
         try {
           const { data } = await Axios.get(
-            `https://api.jikan.moe/v4/top/anime`
+            `https://api.jikan.moe/v4/top/anime?filter=airing&type=tv`
           );
 
           //parse the data and put the nessesary data into the state

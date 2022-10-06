@@ -26,18 +26,18 @@ const AnimePage: NextPage<AnimeData> = () => {
   const { mal_id } = router.query;
   const [animeData, setAnimeData] = useRecoilState<AnimeData | null>(CurrentAnime);
   const [loading, setLoading] = useState<boolean>(false);
-
-  
   
   useEffect(() => {
     if(!router.isReady) return;
-    if(animeData === null) {
+    if(animeData === null) 
+    {
       (async () => {
         try {
           const { data }: any = await axios.get(
             `https://api.jikan.moe/v4/anime/${mal_id?.toString()}`
             );
-            
+
+          
           //parse
           const result: AnimeData = JSON.parse(JSON.stringify(data.data));
   
@@ -106,7 +106,7 @@ const AnimePage: NextPage<AnimeData> = () => {
                 <Heading color={'whiteAlpha.700'}>Episodes</Heading>
               <Divider minW={"50vw"}/>
               <Center>
-                <List amount={animeData?.episodes} title={animeData.title} mal_id={animeData?.mal_id}  type={animeData?.type}/>                  
+                <List amount={animeData.episodes} title={animeData.title} mal_id={animeData?.mal_id}  type={animeData?.type}/>                  
               </Center>
               
              </Flex>    
